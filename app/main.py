@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.config.database import db
 from app.config.settings import settings
+from app.routes import auth
 
 # Lifespan events: Reemplaza a @app.on_event("startup")
 @asynccontextmanager
@@ -33,6 +34,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 
 @app.get("/")
 async def root():
